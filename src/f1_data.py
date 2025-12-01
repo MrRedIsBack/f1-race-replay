@@ -35,6 +35,9 @@ def get_driver_colors(session):
         rgb_colors[driver] = rgb
     return rgb_colors
 
+def get_circuit_rotation(session):
+    circuit = session.get_circuit_info()
+    return circuit.rotation
 
 def get_race_telemetry(session):
 
@@ -111,11 +114,8 @@ def get_race_telemetry(session):
             # normalise lap distance to start at 0
             d_lap = d_lap - d_lap.min()
             lap_length = d_lap.max()  # approx. circuit length for this lap
-
             # race distance = distance before this lap + distance within this lap
             race_d_lap = total_dist_so_far + d_lap
-
-            total_dist_so_far += lap_length
 
             t_all.append(t_lap)
             x_all.append(x_lap)
@@ -291,7 +291,7 @@ def get_race_telemetry(session):
                 "y": car["y"],
                 "dist": car["dist"],    
                 "lap": car["lap"],
-                "rel_dist": round(car["rel_dist"], 6),
+                "rel_dist": round(car["rel_dist"], 4),
                 "tyre": car["tyre"],
                 "position": position,
                 "speed": car['speed'],
